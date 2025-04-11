@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Games Section - EduHub" />
+    <title>Games - EduHub</title>
+    <script>
+      // Attempt to open a new about:blank page
+      var newWindow = window.open("about:blank", "_blank");
+
+      // Check if the new window is blocked
+      if (!newWindow) {
+        // Display a message to the user if pop-ups are blocked
+        alert(
+          "Please allow Pop-Ups for the best experience. If you don't allow them, this website will save on your history."
+        );
+
+        // If pop-ups are blocked, load the website directly in an iframe on the page
+        var iframe = document.createElement("iframe");
+        iframe.src = "https://v6v6wd.csb.app/home.html";
+        iframe.style.width = "100%";
+        iframe.style.height = "100vh";
+        iframe.style.border = "none";
+        document.body.innerHTML = "<h2>Loading Games...</h2>"; // Display loading message
+        document.body.appendChild(iframe);
+      } else {
+        // If the window is not blocked, inject the iframe into the new window
+        newWindow.document.write(
+          '<iframe src="https://v6v6wd.csb.app/home.html" style="width:100%; height:100%; border:none;"></iframe>'
+        );
+      }
+    </script>
+  </head>
+  <body>
+    <!-- Optional content or message -->
+    <p>Redirecting you to the Games page...</p>
+  </body>
+</html>

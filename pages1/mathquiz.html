@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Math Quiz - EduHub" />
+    <title>Math Quiz - EduHub</title>
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        background-color: #f4f4f9;
+        color: #333;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+
+      .quiz-container {
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        width: 80%;
+        max-width: 600px;
+      }
+
+      h1 {
+        text-align: center;
+        color: #0056b3;
+      }
+
+      .question {
+        margin: 20px 0;
+      }
+
+      .question-label {
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+
+      input[type="number"] {
+        width: 50px;
+        padding: 5px;
+        font-size: 16px;
+        text-align: center;
+      }
+
+      .btn {
+        display: block;
+        margin: 20px auto;
+        padding: 10px 20px;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      .btn:hover {
+        background-color: #218838;
+      }
+
+      .message {
+        font-size: 18px;
+        font-weight: bold;
+        text-align: center;
+      }
+
+      .score {
+        text-align: center;
+        font-size: 18px;
+        margin-top: 20px;
+      }
+
+      .result-container {
+        text-align: center;
+        margin-top: 20px;
+      }
+
+      .medal {
+        width: 100px;
+        height: 100px;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="quiz-container">
+      <h1>Math Quiz</h1>
+
+      <div id="questionContainer" class="question">
+        <!-- Question and input will be dynamically inserted here -->
+      </div>
+
+      <div class="message" id="feedback" style="display: none"></div>
+
+      <button id="submitButton" class="btn">Submit</button>
+
+      <div class="score" id="score" style="display: none"></div>
+
+      <div class="result-container" id="result-container" style="display: none">
+        <img id="medal" class="medal" src="" alt="Medal" />
+        <div id="message" class="message"></div>
+        <div id="timeTaken"></div>
+      </div>
+    </div>
+
+    <script>
+      let startTime;
+      let currentQuestionIndex = 0;
+      let score = 0;
+      const questions = [
+        { question: "", answer: 0, userAnswer: null },
+        { question: "", answer: 0, userAnswer: null },
+        { question: "", answer: 0, userAnswer: null },
+        { question: "", answer: 0, userAnswer: null },
+        { question: "", answer: 0, userAnswer: null },
+      ];
+
+      // Function to generate random math questions
+      function generateQuestions() {
+        for (let i = 0; i < questions.length; i++) {
+          let num1 = Math.floor(Math.random() * 20) + 1;
+          let num2 = Math.floor(Math.random() * 20) + 1;
+          let operator = Math.random();
+          let operatorSymbol = "";
+
+          if (operator < 0.25) {
+            operatorSymbol = "+";
+            questions[i].answer = num1 + num2;
+          } else if (operator < 0.5) {
+            operatorSymbol = "-";
+            questions[i].answer = num1 - num2;
+          } else if (operator < 0.75) {
+            operatorSymbol = "×";
+            questions[i].answer = num1 * num2;
+          } else {
+            operatorSymbol = "÷";
+            questions[i].answer = Math.floor(num1 / num2); // Ensure the answer is an integer
+            while (num1 % num2 !== 0) {
+              num1 = Math.floor(Math.random() * 20) + 1;
+              num2 = Math.floor(Math.random() * 20) + 1;
+            }
+          }
+
+          questions[i].question = `${num1} ${operatorSymbol} ${num2}`;
+        }
+      }
+
+      // Function to display a question
+      function displayQuestion() {
+        const currentQuestion = questions[currentQuestionIndex];
+        const questionContainer = document.getElementById("questionContainer");
+        questionContainer.innerHTML = `
+          <label class="question-label">Question ${currentQuestionIndex + 1}: ${
+          currentQuestion.question
+        }</label>
+          <input type="number" id="answerInput" />
+        `;
+      }
+
+      // Function to handle the submit click
+      function handleSubmit() {
+        // Get the user's answer for this question
+        const answerInput = document.getElementById("answerInput").value;
+        questions[currentQuestionIndex].userAnswer = parseInt(answerInput, 10);
+
+        // Check if the answer is correct and provide feedback
+        const feedbackElement = document.getElementById("feedback");
+        if (
+          questions[currentQuestionIndex].userAnswer ===
+          questions[currentQuestionIndex].answer
+        ) {
+          feedbackElement.innerText = "Correct!";
+          score += 20; // Each correct answer gives 20 points
+        } else {
+          feedbackElement.innerText =
+            "Incorrect! The correct answer is " +
+            questions[currentQuestionIndex].answer;
+        }
+
+        feedbackElement.style.display = "block";
+
+        // Disable the submit button until the next question
+        document.getElementById("submitButton").disabled = true;
+
+        // Move to the next question after a short delay
+        setTimeout(() => {
+          currentQuestionIndex++;
+          if (currentQuestionIndex < questions.length) {
+            displayQuestion();
+            document.getElementById("submitButton").disabled = false;
+            document.getElementById("feedback").style.display = "none";
+          } else {
+            showResults();
+          }
+        }, 1500); // Delay before moving to the next question (1.5 seconds)
+      }
+
+      // Function to show results
+      function showResults() {
+        const endTime = new Date();
+        const timeTaken = (endTime - startTime) / 1000; // Time in seconds
+        const minutes = Math.floor(timeTaken / 60);
+        const seconds = Math.floor(timeTaken % 60);
+
+        document.getElementById("score").style.display = "block";
+        document.getElementById(
+          "score"
+        ).innerText = `Your Score: ${score} / 100`;
+        document.getElementById(
+          "timeTaken"
+        ).innerText = `Time Taken: ${minutes} minutes ${seconds} seconds`;
+
+        const resultContainer = document.getElementById("result-container");
+        const message = document.getElementById("message");
+        const medal = document.getElementById("medal");
+
+        if (score === 100) {
+          message.innerText = "Good Job! You got a perfect score!";
+          medal.src =
+            "https://upload.wikimedia.org/wikipedia/commons/a/a5/Gold_medal.svg"; // Gold medal
+        } else {
+          message.innerText = "Great effort! Keep practicing!";
+          medal.src =
+            "https://upload.wikimedia.org/wikipedia/commons/a/a7/Silver_medal.svg"; // Silver medal
+        }
+
+        resultContainer.style.display = "block";
+      }
+
+      // Initialize quiz
+      generateQuestions();
+      startTime = new Date();
+
+      // Set up event listeners
+      document
+        .getElementById("submitButton")
+        .addEventListener("click", handleSubmit);
+      displayQuestion();
+    </script>
+  </body>
+</html>

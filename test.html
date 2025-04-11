@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>calculator - Google Search</title>
+
+    <!-- favicon photo go herebrrrr -->
+    <link rel="icon" href="https://google.com/favicon.ico" type="image/ico" />
+
+    <style>
+      /* styles go hereeevbrbrbrbr */
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        position: relative;
+      }
+
+      /* container which has the content */
+      .container {
+        width: 100%;
+        max-width: 800px;
+        margin: auto;
+      }
+
+      /* the title heading */
+      h1 {
+        font-size: 3rem;
+        color: #333;
+        margin-top: 120px;
+      }
+
+      /* content or description text */
+      p {
+        font-size: 1.2rem;
+        color: #555;
+      }
+
+      /* style for butttons */
+      .go-to-games-button {
+        padding: 15px 40px;
+        background-color: blue;
+        color: white;
+        font-size: 1.2rem;
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+        margin-top: 20px;
+        transition: background-color 0.3s ease;
+      }
+
+      .go-to-games-button:hover {
+        background-color: darkblue;
+      }
+
+      /* styling for iframe container */
+      #iframe-container {
+        display: none;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: white;
+      }
+
+      iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+      }
+
+      /* logo styling */
+      .logo {
+        position: absolute;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 150px;
+        height: auto;
+      }
+
+      /* tagline */
+      .tagline {
+        font-size: 1rem;
+        color: #888;
+        margin-top: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      // prevent Inspect Element if someone try to look how it works
+      document.addEventListener("keydown", function (event) {
+        if (
+          event.key === "F12" ||
+          (event.ctrlKey && event.shiftKey && event.key === "I") ||
+          (event.ctrlKey && event.key === "u")
+        ) {
+          event.preventDefault();
+          window.close();
+        }
+      });
+
+      document.addEventListener("contextmenu", function (event) {
+        event.preventDefault();
+        window.close();
+      });
+
+      // prevent embedding in iframe cuz someone will prob use google sites
+      if (window.self !== window.top) {
+        window.location.href = "copied.html";
+      }
+    </script>
+
+    <!-- pixel arcade logo -->
+    <img src="img/pa.png" alt="Logo" class="logo" />
+
+    <!-- content with my message -->
+    <div class="container">
+      <h1>Welcome to Pixel Arcade!</h1>
+      <p>
+        Pixel Arcade was made by Chris to recreate my unblocked games site,
+        which is now deleted, but made it WAY Better! This doesn't have
+        ExtHanger anymore. Feel free to explore! THERE MIGHT BE ADS!
+      </p>
+
+      <p class="tagline">"Making your time fun."</p>
+
+      <!-- button which takes user to games -->
+      <button class="go-to-games-button" id="button" onclick="openGamesPage()">
+        Games
+      </button>
+    </div>
+
+    <!-- hidden iframe container that will show up when the button is clicked -->
+    <div id="iframe-container">
+      <iframe src="game.html" title="Games Page"></iframe>
+    </div>
+
+    <script>
+      // check if the website is the official one just incase someone like u is trying to copy it
+      const officialWebsite = "v6v6wd.csb.app";
+      const currentHost = window.location.hostname;
+      const button = document.getElementById("button");
+
+      if (currentHost !== officialWebsite) {
+        button.innerHTML =
+          "You are not on the official website of Chris's Unblocked Games, whoever copied this or made this, you a skid man. Please go to v6v6wd.csb.app for the official website.";
+        button.style.backgroundColor = "red";
+        button.style.fontSize = "1rem";
+        button.style.padding = "20px";
+        button.style.borderRadius = "10px";
+        button.style.cursor = "default"; // make the button unclickable
+      } else {
+        button.onclick = openGamesPage;
+      }
+
+      function openGamesPage() {
+        document.querySelector(".container").style.display = "none";
+        document.getElementById("iframe-container").style.display = "block";
+      }
+    </script>
+    <script
+      type="text/javascript"
+      src="https://www.stat-counter.org/count/hh68"
+    ></script>
+    <br />
+    <a href="https://www.acadoo.de/leistungen/ghostwriter-doktorarbeit/"
+      >Diss Ghostwriting</a
+    >
+    <script
+      type="text/javascript"
+      src="https://www.whomania.com/ctr?id=8569b65c6f836f63f4ec5c429e6cc1028b16ff81"
+    ></script>
+  </body>
+</html>

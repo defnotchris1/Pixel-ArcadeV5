@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        background-color: #f0f0f0;
+      }
+
+      /* Sidebar for friend search and profile customization */
+      #sidebar {
+        width: 250px;
+        background-color: #333;
+        color: white;
+        padding: 20px;
+        height: 100vh;
+        position: fixed;
+      }
+
+      #sidebar h2 {
+        margin-top: 0;
+      }
+
+      #sidebar input {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+        border: none;
+        border-radius: 4px;
+        background-color: #555;
+        color: white;
+      }
+
+      #sidebar input:focus {
+        outline: none;
+        background-color: #444;
+      }
+
+      #profileCustomization {
+        display: none;
+        margin-top: 20px;
+      }
+
+      /* Main content */
+      #mainContent {
+        margin-left: 270px;
+        padding: 20px;
+        width: 100%;
+        background-color: white;
+        height: 100vh;
+        overflow-y: auto;
+      }
+
+      /* Friends list on the right */
+      #friendList {
+        margin-top: 20px;
+        position: fixed;
+        right: 20px;
+        top: 100px;
+        width: 250px;
+        background-color: #fff;
+        padding: 10px;
+        border-radius: 10px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      #friendList .friend {
+        margin-bottom: 10px;
+        padding: 8px;
+        background-color: #f5f5f5;
+        border-radius: 4px;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .friend .status {
+        font-size: 12px;
+        color: #888;
+      }
+
+      /* Friend request notification */
+      .friend-request {
+        background-color: #ffeb3b;
+        padding: 8px;
+        border-radius: 4px;
+        margin-top: 10px;
+        font-size: 14px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: black;
+      }
+
+      .friend-request button {
+        padding: 5px 10px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      .friend-request button.decline {
+        background-color: #f44336;
+      }
+
+      /* Chat box styling */
+      #chat {
+        width: 400px;
+        padding: 10px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        display: none;
+        overflow-y: auto;
+        max-height: 300px;
+      }
+
+      #chat .message {
+        padding: 8px;
+        margin-bottom: 10px;
+        background-color: #e2e2e2;
+        border-radius: 4px;
+      }
+
+      #chatHeader {
+        cursor: move;
+        background-color: #333;
+        color: #fff;
+        padding: 10px;
+        text-align: center;
+        border-radius: 8px 8px 0 0;
+      }
+
+      #chat textarea {
+        width: 100%;
+        padding: 8px;
+        margin-top: 10px;
+      }
+
+      #chat button {
+        width: 100%;
+        padding: 10px;
+        background-color: #333;
+        color: #fff;
+        border: none;
+        margin-top: 10px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Sidebar for Friend Search and Profile Customization -->
+    <div id="sidebar">
+      <h2>Friends</h2>
+      <input
+        type="text"
+        id="friendSearch"
+        placeholder="Search for friends..."
+      />
+      <div id="profileCustomization">
+        <h3>Choose a Username</h3>
+        <input type="text" id="usernameInput" placeholder="Enter a username" />
+        <button id="saveUsername">Save Username</button>
+      </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <div id="mainContent">
+      <h1>Profile</h1>
+      <button id="googleSignIn">Sign in with Google</button>
+      <button id="signOut" style="display: none">Sign Out</button>
+
+      <div id="userInfo"></div>
+
+      <!-- Profile Customization -->
+      <div id="profileCustomization" style="display: none">
+        <h2>Customize Profile</h2>
+        <textarea id="bio" placeholder="Write a bio..."></textarea>
+        <input type="file" id="avatarUpload" accept="image/*" />
+        <button id="saveProfile">Save Profile</button>
+      </div>
+    </div>
+
+    <!-- Friend List on the Right -->
+    <div id="friendList"></div>
+
+    <!-- Draggable Chat Window -->
+    <div id="chat">
+      <div id="chatHeader">Chat</div>
+      <div id="messages"></div>
+      <textarea id="messageInput" placeholder="Type a message..."></textarea>
+      <button id="sendMessage">Send Message</button>
+    </div>
+
+    <script type="module">
+      // Firebase SDK imports
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-app.js";
+      import {
+        getAuth,
+        signInWithPopup,
+        GoogleAuthProvider,
+        signOut,
+        onAuthStateChanged,
+      } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-auth.js";
+      import {
+        getDatabase,
+        ref,
+        set,
+        get,
+        child,
+        update,
+      } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-database.js";
+
+      // Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyAhZ-pfDq2zTtUSyte5KZO3sGSH0cSnXMI",
+        authDomain: "pixel-arcade-de759.firebaseapp.com",
+        projectId: "pixel-arcade-de759",
+        storageBucket: "pixel-arcade-de759.firebasestorage.app",
+        messagingSenderId: "27580759079",
+        appId: "1:27580759079:web:fff88d0bb2e0e3a50f6202",
+        measurementId: "G-8B22HEEQR8",
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+      const provider = new GoogleAuthProvider();
+      const db = getDatabase(app);
+
+      // UI Elements
+      const signInBtn = document.getElementById("googleSignIn");
+      const signOutBtn = document.getElementById("signOut");
+      const userInfo = document.getElementById("userInfo");
+      const profileCustomization = document.getElementById(
+        "profileCustomization"
+      );
+      const bioInput = document.getElementById("bio");
+      const avatarUpload = document.getElementById("avatarUpload");
+      const saveProfileBtn = document.getElementById("saveProfile");
+      const friendSearch = document.getElementById("friendSearch");
+      const friendList = document.getElementById("friendList");
+      const chat = document.getElementById("chat");
+      const messages = document.getElementById("messages");
+      const messageInput = document.getElementById("messageInput");
+      const sendMessageBtn = document.getElementById("sendMessage");
+      const saveUsernameBtn = document.getElementById("saveUsername");
+      const usernameInput = document.getElementById("usernameInput");
+
+      let currentUser;
+
+      // Google Sign-In
+      signInBtn.addEventListener("click", () => {
+        signInWithPopup(auth, provider)
+          .then((result) => {
+            const user = result.user;
+            updateUI(user);
+            currentUser = user;
+            set(ref(db, "users/" + user.uid), {
+              email: user.email,
+              name: user.displayName,
+              avatar: user.photoURL,
+              username: user.displayName,
+            });
+            profileCustomization.style.display = "block";
+            updateUserStatus(user.uid, "online");
+          })
+          .catch((error) => {
+            console.error("Error signing in:", error);
+          });
+      });
+
+      // Google Sign-Out
+      signOutBtn.addEventListener("click", () => {
+        signOut(auth)
+          .then(() => {
+            alert("Signed out!");
+            updateUI(null);
+            updateUserStatus(currentUser.uid, "offline");
+          })
+          .catch((error) => {
+            console.error("Error signing out:", error);
+          });
+      });
+
+      // Save Username
+      saveUsernameBtn.addEventListener("click", () => {
+        const username = usernameInput.value.trim();
+        if (username) {
+          const user = auth.currentUser;
+          set(ref(db, "users/" + user.uid), {
+            username: username,
+          }).then(() => {
+            alert("Username saved!");
+            profileCustomization.style.display = "none";
+            loadFriendList(user);
+          });
+        }
+      });
+
+      // Update UI
+      function updateUI(user) {
+        if (user) {
+          userInfo.innerHTML = `
+                    <p>Welcome, ${user.displayName}!</p>
+                    <img src="${user.photoURL}" alt="Profile Picture" width="100">
+                    <p>Email: ${user.email}</p>
+                `;
+          signInBtn.style.display = "none";
+          signOutBtn.style.display = "block";
+        } else {
+          signInBtn.style.display = "block";
+          signOutBtn.style.display = "none";
+          userInfo.innerHTML = "";
+        }
+      }
+
+      // Update User Status in Firebase
+      function updateUserStatus(uid, status) {
+        set(ref(db, "users/" + uid), {
+          status: status,
+        });
+      }
+
+      // Load Friend List
+      function loadFriendList(user) {
+        const friendsRef = ref(db, "users/" + user.uid + "/friends");
+        get(friendsRef).then((snapshot) => {
+          friendList.innerHTML = "";
+          if (snapshot.exists()) {
+            snapshot.forEach((friendSnapshot) => {
+              const friendData = friendSnapshot.val();
+              const friendName = friendData.name;
+              const friendStatus = friendData.status;
+              friendList.innerHTML += `
+                            <div class="friend" onclick="openChat('${friendSnapshot.key}')">
+                                <p>${friendName} - <span class="${friendStatus}">${friendStatus}</span></p>
+                            </div>
+                        `;
+            });
+          }
+        });
+      }
+
+      // Search and Add Friend by Username
+      friendSearch.addEventListener("input", (e) => {
+        const query = e.target.value.toLowerCase();
+        const usersRef = ref(db, "users");
+        get(usersRef).then((snapshot) => {
+          friendList.innerHTML = "";
+          snapshot.forEach((userSnapshot) => {
+            const userData = userSnapshot.val();
+            if (
+              userData.username &&
+              userData.username.toLowerCase().includes(query)
+            ) {
+              friendList.innerHTML += `
+                            <div class="friend" onclick="sendFriendRequest('${userSnapshot.key}')">
+                                <p>${userData.username}</p>
+                            </div>
+                        `;
+            }
+          });
+        });
+      });
+
+      // Send Friend Request
+      function sendFriendRequest(uid) {
+        const currentUser = auth.currentUser;
+        if (currentUser) {
+          const friendRef = ref(
+            db,
+            "users/" + uid + "/friendRequests/" + currentUser.uid
+          );
+          set(friendRef, {
+            from: currentUser.displayName,
+            status: "pending",
+          }).then(() => {
+            alert("Friend request sent!");
+          });
+        }
+      }
+
+      // Open Chat
+      function openChat(friendUid) {
+        chat.style.display = "block";
+        messages.innerHTML = "";
+        const friendRef = ref(db, "users/" + friendUid);
+        get(friendRef).then((snapshot) => {
+          if (snapshot.exists()) {
+            const friendData = snapshot.val();
+            chat.querySelector(
+              "header"
+            ).innerHTML = `Chat with ${friendData.username}`;
+          }
+        });
+      }
+
+      // Draggable Chat Window
+      let isDragging = false;
+      let offsetX, offsetY;
+
+      document
+        .getElementById("chatHeader")
+        .addEventListener("mousedown", (event) => {
+          isDragging = true;
+          offsetX = event.clientX - chat.getBoundingClientRect().left;
+          offsetY = event.clientY - chat.getBoundingClientRect().top;
+        });
+
+      document.addEventListener("mousemove", (event) => {
+        if (isDragging) {
+          chat.style.left = event.clientX - offsetX + "px";
+          chat.style.top = event.clientY - offsetY + "px";
+        }
+      });
+
+      document.addEventListener("mouseup", () => {
+        isDragging = false;
+      });
+    </script>
+  </body>
+</html>

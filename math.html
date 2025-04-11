@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="6th Grade Math Quiz - EduHub" />
+    <title>Math - EduHub</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        color: #333;
+        text-align: center;
+      }
+
+      h1 {
+        margin-top: 40px;
+      }
+
+      .message-container {
+        background-color: #f0f8ff;
+        padding: 20px;
+        margin: 40px 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        position: relative;
+        width: 80%;
+        margin: 20px auto;
+      }
+
+      .message-container h2 {
+        font-size: 1.8em;
+        margin-bottom: 20px;
+      }
+
+      .close-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 1.5em;
+        cursor: pointer;
+        background: none;
+        border: none;
+      }
+
+      .message-container p {
+        font-size: 1.2em;
+      }
+
+      .btn {
+        background-color: #ff6600;
+        color: white;
+        padding: 8px 20px;
+        text-decoration: none;
+        border-radius: 5px;
+        font-size: 1.2em;
+        cursor: pointer;
+        display: inline-block;
+        margin-top: 15px;
+      }
+
+      .btn:hover {
+        background-color: #e65c00;
+      }
+
+      #quiz-container {
+        display: block;
+        margin-top: 50px;
+      }
+
+      .question-container {
+        margin-bottom: 30px;
+      }
+
+      .question-container p {
+        font-size: 1.5em;
+        margin-bottom: 10px;
+      }
+
+      .answer-btn {
+        margin: 5px;
+        padding: 8px 15px;
+        font-size: 1em;
+        cursor: pointer;
+        border-radius: 5px;
+        background-color: #003366;
+        color: white;
+        border: none;
+      }
+
+      .answer-btn:hover {
+        background-color: #002244;
+      }
+
+      #score-container {
+        margin-top: 30px;
+      }
+
+      #result-message {
+        font-size: 1.8em;
+        margin-top: 30px;
+        color: #ff6600;
+      }
+
+      #score {
+        font-size: 2em;
+        font-weight: bold;
+        color: #003366;
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .message-container {
+          width: 90%;
+        }
+
+        .btn {
+          font-size: 1em;
+          padding: 8px 15px;
+        }
+
+        .answer-btn {
+          font-size: 1.1em;
+          padding: 8px 15px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Welcome to the Math Quiz!</h1>
+
+    <!-- Initial Message Container -->
+    <div class="message-container" id="messageContainer">
+      <button class="close-btn" onclick="closeMessage()">X</button>
+      <h2>We are giving you a Free Testing Course!</h2>
+      <p>
+        For the full experience,
+        <a href="bcmember.html" class="btn">Become a member today!</a>
+      </p>
+    </div>
+
+    <!-- Quiz Container -->
+    <div id="quiz-container">
+      <div id="questionArea"></div>
+      <div id="score-container">
+        <p>Current Score: <span id="score">0</span> points</p>
+      </div>
+      <div id="result-message"></div>
+    </div>
+
+    <script>
+      // Show quiz when the user clicks 'X' to skip the message
+      function closeMessage() {
+        document.getElementById("messageContainer").style.display = "none";
+        startQuiz();
+      }
+
+      // Starting the quiz
+      let currentQuestion = 0;
+      let score = 0;
+      const questions = [
+        { question: "5 + 3", answer: 8 },
+        { question: "12 - 4", answer: 8 },
+        { question: "7 * 6", answer: 42 },
+        { question: "36 / 6", answer: 6 },
+        { question: "15 + 9", answer: 24 },
+        { question: "20 - 9", answer: 11 },
+      ];
+
+      // Function to display the next question
+      function startQuiz() {
+        displayQuestion();
+      }
+
+      // Function to display a question
+      function displayQuestion() {
+        if (currentQuestion < questions.length) {
+          let question = questions[currentQuestion];
+          let questionArea = document.getElementById("questionArea");
+          questionArea.innerHTML = `
+                    <div class="question-container">
+                        <p>Question ${currentQuestion + 1}: ${
+            question.question
+          }</p>
+                        <button class="answer-btn" onclick="checkAnswer(${
+                          question.answer
+                        })">${question.answer}</button>
+                        <button class="answer-btn" onclick="checkAnswer(${
+                          question.answer + 2
+                        })">${question.answer + 2}</button>
+                        <button class="answer-btn" onclick="checkAnswer(${
+                          question.answer - 2
+                        })">${question.answer - 2}</button>
+                    </div>
+                `;
+        } else {
+          showResult();
+        }
+      }
+
+      // Function to check the answer
+      function checkAnswer(selectedAnswer) {
+        let question = questions[currentQuestion];
+
+        if (selectedAnswer === question.answer) {
+          score += 20; // Increase score by 20 for each correct answer
+          if (score > 100) score = 100; // Cap score at 100 points
+          document.getElementById("score").textContent = score;
+        }
+
+        currentQuestion++;
+        displayQuestion();
+      }
+
+      // Function to show the result after reaching the end of the quiz
+      function showResult() {
+        let resultMessage = document.getElementById("result-message");
+
+        if (score >= 100) {
+          resultMessage.innerHTML = `You have reached the limit of the test! Well done! <br> <a href="home.html" class="btn">Become a member today!</a>`;
+        } else {
+          resultMessage.innerHTML = `Keep practicing! You've scored ${score} points. <br> <a href="home.html" class="btn">Become a member today!</a>`;
+        }
+      }
+    </script>
+  </body>
+</html>

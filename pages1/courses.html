@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Courses - EduHub" />
+    <title>EduHub - Courses</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-image: url("https://static.vecteezy.com/system/resources/previews/011/005/174/non_2x/creative-education-background-with-school-supplies-vector.jpg");
+        background-size: cover;
+        background-position: center;
+        color: #333;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 100vh;
+      }
+
+      /* Logo */
+      .logo {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        overflow: hidden;
+      }
+
+      .logo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      /* Navigation Bar */
+      .nav-bar {
+        width: 100%;
+        background-color: rgba(255, 255, 255, 0.8);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: center;
+        padding: 10px 0;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+      }
+
+      .nav-bar a {
+        text-decoration: none;
+        color: #333;
+        padding: 14px 25px;
+        font-size: 1.2em;
+        transition: background-color 0.3s;
+      }
+
+      .nav-bar a:hover {
+        background-color: #ff6600;
+        color: white;
+      }
+
+      /* Main Content */
+      .main-content {
+        margin-top: 80px;
+        text-align: center;
+        width: 80%;
+        max-width: 1000px;
+        padding: 40px;
+        background-color: rgba(255, 255, 255, 0.9);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+      }
+
+      h1 {
+        font-size: 2.5em;
+        color: #333;
+      }
+
+      .recommendations {
+        margin-top: 40px;
+        text-align: left;
+      }
+
+      .recommendation-item {
+        background-color: #ff6600;
+        padding: 10px;
+        border-radius: 5px;
+        color: white;
+        margin: 10px 0;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .nav-bar a {
+          padding: 10px 15px;
+          font-size: 1em;
+        }
+
+        .main-content {
+          width: 95%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Logo -->
+    <div class="logo">
+      <img
+        src="https://play-lh.googleusercontent.com/pOupe7xXiOPZQ-N6oYWkjbeWIBm_ecy7FSY2oCMAZEseZjK6SCwu9Up15cqP20a8AZs=w240-h480-rw"
+        alt="EduHub Logo"
+      />
+    </div>
+
+    <!-- Navigation Bar -->
+    <div class="nav-bar">
+      <a href="learning.html">Learning</a>
+      <a href="courses.html">Home</a>
+      <a href="games.html">Games</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <h1>Welcome User!</h1>
+      <p>Here are some recommended courses for you:</p>
+
+      <!-- Recommendations Section -->
+      <div class="recommendations">
+        <div class="recommendation-item">Course 1: Math 101</div>
+        <div class="recommendation-item">Course 2: History Past 101</div>
+        <div class="recommendation-item">Course 3: Data Science 101</div>
+        <div class="recommendation-item">Course 4: Texas History 101</div>
+      </div>
+    </div>
+  </body>
+</html>

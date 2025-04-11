@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Sign In or Log In to EduHub" />
+    <title>Member - EduHub</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        color: #333;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+
+      .container {
+        background-color: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        padding: 40px;
+        width: 300px;
+        text-align: center;
+      }
+
+      h2 {
+        font-size: 2em;
+        margin-bottom: 20px;
+      }
+
+      input[type="email"],
+      input[type="password"] {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+      }
+
+      input[type="submit"] {
+        background-color: #ff6600;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1.1em;
+      }
+
+      input[type="submit"]:hover {
+        background-color: #e65c00;
+      }
+
+      .toggle-link {
+        color: #003366;
+        font-size: 1em;
+        margin-top: 20px;
+        text-decoration: none;
+      }
+
+      .toggle-link:hover {
+        text-decoration: underline;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .container {
+          width: 90%;
+        }
+
+        h2 {
+          font-size: 1.8em;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container" id="signInContainer">
+      <h2>Sign In</h2>
+      <form id="signInForm" action="#" method="POST">
+        <input type="email" placeholder="Enter your email" required /><br />
+        <input
+          type="password"
+          placeholder="Enter your password"
+          required
+        /><br />
+        <input type="submit" value="Sign In" />
+      </form>
+      <p class="toggle-link" onclick="toggleForm()">
+        Already have an account? <span>Log in here!</span>
+      </p>
+    </div>
+
+    <div class="container" id="logInContainer" style="display: none">
+      <h2>Log In</h2>
+      <form id="logInForm" action="#" method="POST">
+        <input type="email" placeholder="Enter your email" required /><br />
+        <input
+          type="password"
+          placeholder="Enter your password"
+          required
+        /><br />
+        <input type="submit" value="Log In" />
+      </form>
+      <p class="toggle-link" onclick="toggleForm()">
+        Don't have an account? <span>Sign up here!</span>
+      </p>
+    </div>
+
+    <script>
+      // Function to toggle between Sign In and Log In forms
+      function toggleForm() {
+        var signInContainer = document.getElementById("signInContainer");
+        var logInContainer = document.getElementById("logInContainer");
+
+        // Toggle visibility of the forms
+        if (signInContainer.style.display === "none") {
+          signInContainer.style.display = "block";
+          logInContainer.style.display = "none";
+        } else {
+          signInContainer.style.display = "none";
+          logInContainer.style.display = "block";
+        }
+      }
+
+      // Simulate form submission and redirect to home.html after successful login or sign-in
+      document
+        .getElementById("signInForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault(); // Prevent the form from submitting normally
+          window.location.href = "extpage/sbjects/work/home.html"; // Redirect to home page after successful sign-in
+        });
+
+      document
+        .getElementById("logInForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault(); // Prevent the form from submitting normally
+          window.location.href = "extpage/sbjects/work/home.html"; // Redirect to home page after successful log-in
+        });
+    </script>
+  </body>
+</html>

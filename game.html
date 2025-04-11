@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>google - Google Search</title>
+
+    <!-- Favicon: Set the favicon to Google logo -->
+    <link
+      rel="icon"
+      href="https://www.google.com/favicon.ico"
+      type="image/ico"
+    />
+
+    <style>
+      /* Ensure the iframe takes up the entire screen */
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow: hidden;
+      }
+      iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+      }
+    </style>
+  </head>
+  <body>
+    <iframe
+      id="secure-iframe"
+      src="https://math.global.ssl.fastly.net/index.html"
+      title="Math Global"
+      allowfullscreen
+      sandbox="allow-same-origin allow-scripts"
+    ></iframe>
+
+    <script>
+      const iframe = document.getElementById("secure-iframe");
+
+      function enforceSameDomain() {
+        try {
+          const iframeSrc = new URL(iframe.src);
+          if (!iframeSrc.hostname.endsWith("math.global.ssl.fastly.net")) {
+            alert("Navigation blocked: Unauthorized domain!");
+            iframe.src = "https://math.global.ssl.fastly.net/index.html"; // Reset to the main page
+          }
+        } catch (error) {
+          console.error("Error checking iframe URL:", error);
+        }
+      }
+
+      setInterval(enforceSameDomain, 1000); // Check every second
+
+      // Listen for fullscreen changes (optional)
+      iframe.addEventListener("click", function () {
+        if (document.documentElement.requestFullscreen) {
+          document.documentElement.requestFullscreen();
+        } else if (document.documentElement.mozRequestFullScreen) {
+          // Firefox
+          document.documentElement.mozRequestFullScreen();
+        } else if (document.documentElement.webkitRequestFullscreen) {
+          // Chrome, Safari, Opera
+          document.documentElement.webkitRequestFullscreen();
+        } else if (document.documentElement.msRequestFullscreen) {
+          // IE/Edge
+          document.documentElement.msRequestFullscreen();
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Sign In or Log In to EduHub" />
+    <title>EduHub - Sign In / Log In</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-image: url("https://media.licdn.com/dms/image/v2/C4D1BAQFRmWtEvp4MdQ/company-background_10000/company-background_10000/0/1651328566019/eduhubsolutions_cover?e=2147483647&v=beta&t=9n2MZpbNQA8xvmSNCfBmO27OPrFqrj6LvmUtZR-BA1U");
+        background-size: cover;
+        background-position: center;
+        color: #333;
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+      }
+
+      .logo {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        overflow: hidden;
+      }
+
+      .logo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .container {
+        background-color: rgba(255, 255, 255, 0.9);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        padding: 40px;
+        width: 320px;
+        text-align: center;
+      }
+
+      h2 {
+        font-size: 2em;
+        margin-bottom: 20px;
+        color: #333;
+      }
+
+      input[type="email"],
+      input[type="password"] {
+        width: 100%;
+        padding: 12px;
+        margin: 15px 0;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        font-size: 1em;
+      }
+
+      input[type="submit"] {
+        background-color: #ff6600;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 1.1em;
+        transition: background-color 0.3s;
+      }
+
+      input[type="submit"]:hover {
+        background-color: #e65c00;
+      }
+
+      .toggle-link {
+        color: #003366;
+        font-size: 1em;
+        margin-top: 20px;
+        text-decoration: none;
+        display: block;
+      }
+
+      .toggle-link:hover {
+        text-decoration: underline;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .container {
+          width: 90%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Logo -->
+    <div class="logo">
+      <img
+        src="https://play-lh.googleusercontent.com/pOupe7xXiOPZQ-N6oYWkjbeWIBm_ecy7FSY2oCMAZEseZjK6SCwu9Up15cqP20a8AZs=w240-h480-rw"
+        alt="EduHub Logo"
+      />
+    </div>
+
+    <!-- Sign In / Log In Form -->
+    <div class="container" id="authContainer">
+      <h2 id="authTitle">Sign In</h2>
+      <form
+        id="authForm"
+        action="#"
+        method="POST"
+        onsubmit="redirectToCourses(); return false;"
+      >
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="Enter your email"
+          required
+        /><br />
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Enter your password"
+          required
+        /><br />
+        <input type="submit" value="Sign In" />
+      </form>
+      <p class="toggle-link" onclick="toggleForm()">
+        Don't have an account? Sign Up
+      </p>
+    </div>
+
+    <script>
+      // Toggle between Sign In and Log In forms
+      function toggleForm() {
+        const title = document.getElementById("authTitle");
+        const form = document.getElementById("authForm");
+        const button = form.querySelector("input[type='submit']");
+        const link = document.querySelector(".toggle-link");
+
+        if (title.textContent === "Sign In") {
+          title.textContent = "Log In";
+          button.value = "Log In";
+          link.innerHTML = "Already have an account? Sign In";
+        } else {
+          title.textContent = "Sign In";
+          button.value = "Sign In";
+          link.innerHTML = "Don't have an account? Sign Up";
+        }
+      }
+
+      // Redirect to courses.html after form submission
+      function redirectToCourses() {
+        window.location.href = "courses.html"; // Redirect to courses page after sign-in or log-in
+      }
+    </script>
+  </body>
+</html>

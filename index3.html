@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Educational Website for all subjects" />
+    <title>EduHub - Your Online Learning Hub</title>
+
+    <!--Favicon goes here lol-->
+    <link
+      rel="icon"
+      href="https://play-lh.googleusercontent.com/pOupe7xXiOPZQ-N6oYWkjbeWIBm_ecy7FSY2oCMAZEseZjK6SCwu9Up15cqP20a8AZs=w240-h480-rw"
+      type="image/png"
+    />
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Arial", sans-serif;
+        background-color: #f4f4f4;
+        color: #333;
+      }
+
+      header {
+        background-color: #003366;
+        color: white;
+        padding: 20px 0;
+        text-align: center;
+      }
+
+      header .logo h1 {
+        font-size: 2.5em;
+        margin-bottom: 0.5em;
+      }
+
+      header .logo p {
+        font-size: 1.2em;
+      }
+
+      /*  background image */
+      .hero {
+        background-image: url("https://media.istockphoto.com/id/178471354/photo/teacher-helping-pupils-study-in-the-classroom.jpg?s=612x612&w=0&k=20&c=CgYuNR_GdGgBAVek-iQl4GAzBTLyVJrHCRTQGPvoX-k=");
+        background-size: cover;
+        background-position: center;
+        color: white;
+        padding: 60px 20px 20px 20px; /* Adjusting padding to lift up the text */
+        text-align: center;
+        position: relative;
+        z-index: 1;
+      }
+
+      .hero::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(
+          0,
+          0,
+          0,
+          0.5
+        ); /* Dark overlay for better text visibility */
+        z-index: -1;
+      }
+
+      .hero h2 {
+        font-size: 3em;
+        margin-bottom: 10px;
+      }
+
+      .hero p {
+        font-size: 1.5em;
+        margin-bottom: 40px; /* Increased space between text and buttons */
+      }
+
+      /* Button styling for Become a Member link */
+      .become-member {
+        background-color: #ff6600;
+        color: white;
+        padding: 10px 20px; /* Smaller button size */
+        text-decoration: none;
+        border-radius: 5px;
+        font-size: 1.2em; /* Smaller font */
+        transition: background-color 0.3s ease;
+      }
+
+      .become-member:hover {
+        background-color: #e65c00;
+      }
+
+      /* buttons with explore subject */
+      .subjects {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        padding: 40px;
+        text-align: center;
+      }
+
+      .subject-card {
+        background-color: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin: 20px;
+        padding: 20px;
+        text-align: center;
+        width: 250px;
+        border-radius: 10px;
+      }
+
+      .subject-card img {
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+      }
+
+      .subject-card h3 {
+        margin: 15px 0;
+        font-size: 1.8em;
+      }
+
+      .subject-card p {
+        font-size: 1.1em;
+        margin-bottom: 15px;
+      }
+
+      .btn-secondary {
+        background-color: #003366;
+        color: white;
+        padding: 10px 20px;
+        text-decoration: none;
+        border-radius: 5px;
+        font-size: 1em;
+      }
+
+      .btn-secondary:hover {
+        background-color: #002244;
+      }
+
+      footer {
+        background-color: #003366;
+        color: white;
+        text-align: center;
+        padding: 20px;
+        position: fixed;
+        width: 100%;
+        bottom: 0;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .hero h2 {
+          font-size: 2.5em;
+        }
+
+        .hero p {
+          font-size: 1.2em;
+        }
+
+        .become-member {
+          font-size: 1.1em;
+          padding: 8px 18px;
+        }
+
+        .subjects {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .subject-card {
+          width: 80%;
+        }
+
+        .subject-buttons {
+          flex-direction: column;
+          gap: 15px;
+        }
+
+        .subject-buttons a {
+          width: 100%;
+          text-align: center;
+          padding: 12px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="logo">
+        <h1>EduHub</h1>
+        <p>Learn anything, anytime, anywhere!</p>
+      </div>
+    </header>
+
+    <main>
+      <!-- Hero Section with background image -->
+      <section class="hero">
+        <h2>Welcome to EduHub</h2>
+        <p>
+          Explore thousands of courses and lessons from the best teachers
+          worldwide.
+        </p>
+
+        <!-- Become a member link -->
+        <a href="bcmember.html" class="become-member" class="btn-secondary"
+          >Become a member!</a
+        >
+      </section>
+
+      <!-- Explore Subjects Section -->
+      <section class="subjects">
+        <div class="subject-card">
+          <img
+            src="https://img.freepik.com/free-vector/maths-realistic-chalkboard-background_23-2148159115.jpg?t=st=1741656954~exp=1741660554~hmac=606045ef29b897bcee3f41c8bee8c9b4050bd41e118a4f4a7b36b96b1773121e&w=740"
+            alt="Math"
+          />
+          <h3>Mathematics</h3>
+          <p>Learn Math concepts from basic arithmetic to advanced calculus.</p>
+          <a href="math.html" class="btn-secondary">Explore Math</a>
+        </div>
+        <div class="subject-card">
+          <img
+            src="https://www.euroschoolindia.com/wp-content/webp-express/webp-images/uploads/2023/08/importance-of-learning-science.jpg.webp"
+            alt="Science"
+          />
+          <h3>Science</h3>
+          <p>Discover the world of physics, chemistry, biology, and more!</p>
+          <a href="science.html" class="btn-secondary">Explore Science</a>
+        </div>
+        <div class="subject-card">
+          <img
+            src="https://dualcreditathome.com/wp-content/uploads/2014/02/history.jpg"
+            alt="History"
+          />
+          <h3>History</h3>
+          <p>
+            Understand the past to shape the future. From ancient civilizations
+            to modern history.
+          </p>
+          <a href="history.html" class="btn-secondary">Explore History</a>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 EduHub | All Rights Reserved</p>
+      <p>Contact us: info@eduhub.com</p>
+    </footer>
+
+    <script>
+      // No additional JS needed for this change
+    </script>
+  </body>
+</html>

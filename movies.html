@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>PixelFlix</title>
+    <link
+      rel="stylesheet"
+      href="https://szvyflix-proxied.vercel.app/styles.css"
+    />
+    <!-- Add the favicon link -->
+    <link
+      rel="icon"
+      href="https://google.com/favicon.ico"
+      type="image/x-icon"
+    />
+    <style>
+      /* Global Styles */
+      body {
+        font-family: "Arial", sans-serif;
+        background-color: #121212;
+        color: #fff;
+        margin: 0;
+        padding: 0;
+      }
+
+      main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+
+      h1 {
+        font-size: 2.5rem;
+        color: #e50914;
+        margin-bottom: 20px;
+      }
+
+      /* Search Bar and Button Styles */
+      #search {
+        width: 100%;
+        max-width: 400px;
+        padding: 10px;
+        font-size: 1rem;
+        border: 2px solid #e50914;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        background-color: #333;
+        color: #fff;
+        outline: none;
+      }
+
+      #search::placeholder {
+        color: #bbb;
+      }
+
+      #discover {
+        background-color: #e50914;
+        color: white;
+        padding: 12px 20px;
+        font-size: 1rem;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      #discover:hover {
+        background-color: #b20710;
+      }
+
+      /* Results Section */
+      .results {
+        margin-top: 30px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+      }
+
+      .result-card {
+        width: 250px;
+        background-color: #333;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        transition: transform 0.3s ease;
+      }
+
+      .result-card:hover {
+        transform: scale(1.05);
+      }
+
+      .result-card img {
+        width: 100%;
+        height: auto;
+      }
+
+      .result-card .info {
+        padding: 10px;
+      }
+
+      .result-card .info h3 {
+        margin: 0;
+        font-size: 1.2rem;
+      }
+
+      /* Next Page Button */
+      #next-page {
+        background-color: #e50914;
+        color: white;
+        padding: 12px 20px;
+        font-size: 1rem;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 30px;
+        transition: background-color 0.3s ease;
+      }
+
+      #next-page:hover {
+        background-color: #b20710;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Movies</h1>
+      <input id="search" placeholder="Search for a movie..." />
+      <button id="discover">Search</button>
+      <div class="results"></div>
+      <button id="next-page">Next Page</button>
+    </main>
+
+    <!-- Alert Script -->
+    <script>
+      window.onload = function () {
+        alert(
+          "The movies are not locally saved on my website, I am using 3rd party sites to host these movies."
+        );
+      };
+    </script>
+
+    <script src="https://szvyflix-proxied.vercel.app/popular.js"></script>
+    <script src="https://szvyflix-proxied.vercel.app/index.js"></script>
+  </body>
+</html>
