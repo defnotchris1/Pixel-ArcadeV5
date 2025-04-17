@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hawk2go</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #1e1e2f;
+            color: #fff;
+            padding: 20px;
+        }
+        /* Header */
+        .header {
+            background: linear-gradient(45deg, #007BFF, #0056b3);
+            padding: 20px 0;
+            text-align: center;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .header h1 {
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+        }
+        /* Search Bar */
+        .search-bar {
+            margin: 20px auto;
+            text-align: center;
+        }
+        .search-bar input {
+            padding: 10px 15px;
+            width: 300px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            outline: none;
+            font-size: 16px;
+        }
+        .search-bar input:focus {
+            border-color: #007BFF;
+            box-shadow: 0 0 5px #007BFF;
+        }
+        /* Games Container */
+        .games-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px 10px;
+        }
+        /* Game Card */
+        .game {
+            background: #282a36;
+            border-radius: 10px;
+            overflow: hidden;
+            width: 220px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .game:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+        }
+        .game img {
+            width: 100%;
+            height: auto;
+        }
+        .game button {
+            background: #007BFF;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            width: 100%;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .game button:hover {
+            background: #0056b3;
+        }
+        /* Iframe Container */
+        #iframeContainer {
+            display: none;
+            position: relative;
+            margin: 20px auto;
+            width: 90%; /* Adjust iframe width */
+            max-width: 900px;
+            height: 500px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            background: #1e1e2f;
+        }
+        iframe {
+            width: 100%;
+            height: calc(100% - 50px); /* Adjust height to account for buttons */
+            border: none;
+        }
+        .controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #282a36;
+            padding: 10px;
+            border-bottom: 2px solid #007BFF;
+        }
+        .controls button {
+            background: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .controls button:hover {
+            background: #0056b3;
+        }
+        /* Fullscreen */
+        .fullscreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1000;
+        }
+        /* Allow scrolling when iframe is displayed */
+        body.iframe-active {
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Pixel Games</h1>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Search for a game..." onkeyup="searchGames()">
+    </div>
+
+    <!-- Games Container -->
+    <div id="gamesContainer" class="games-container">
+        <!-- Speed Stars -->
+        <div class="game" data-name="Speed Stars">
+            <img src="https://img.poki-cdn.com/04f09e51e79fd1b6a5cc974b504d6379.png" alt="Speed Stars Thumbnail">
+            <button onclick="openGame('speedstars/index.html')">Speed Stars</button>
+        </div>
+        <!-- Placeholder Games -->
+        <div class="game" data-name="Game 2">
+            <img src="https://via.placeholder.com/220x130?text=Game+2" alt="Game 2 Thumbnail">
+            <button onclick="openGame('game2/index.html')">Play Game 2</button>
+        </div>
+        <div class="game" data-name="Game 3">
+            <img src="https://via.placeholder.com/220x130?text=Game+3" alt="Game 3 Thumbnail">
+            <button onclick="openGame('game3/index.html')">Play Game 3</button>
+        </div>
+    </div>
+
+    <!-- Iframe Container -->
+    <div id="iframeContainer">
+        <div class="controls">
+            <button onclick="cloak()">Cloak</button>
+            <button onclick="fullscreen()">Fullscreen</button>
+            <button onclick="goBack()">Go Back</button>
+        </div>
+        <iframe id="gameIframe" src=""></iframe>
+    </div>
+
+    <script>
+        const iframeContainer = document.getElementById('iframeContainer');
+        const gameIframe = document.getElementById('gameIframe');
+
+        // Open a game in the iframe
+        function openGame(gameUrl) {
+            gameIframe.src = gameUrl;
+            iframeContainer.style.display = 'block';
+            document.body.classList.add('iframe-active');
+        }
+
+        // Cloak: Open the game in an about:blank iframe
+        function cloak() {
+            const newWindow = window.open();
+            newWindow.document.write(`<iframe src="${gameIframe.src}" style="width:100%;height:100%;border:none;"></iframe>`);
+            newWindow.document.close();
+        }
+
+        // Fullscreen the iframe
+        function fullscreen() {
+            iframeContainer.classList.add('fullscreen');
+            gameIframe.style.height = '100%';
+        }
+
+        // Exit fullscreen on pressing ESC
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape' && iframeContainer.classList.contains('fullscreen')) {
+                iframeContainer.classList.remove('fullscreen');
+                gameIframe.style.height = 'calc(100% - 50px)';
+            }
+        });
+
+        // Go back to the games page
+        function goBack() {
+            gameIframe.src = '';
+            iframeContainer.style.display = 'none';
+            document.body.classList.remove('iframe-active');
+        }
+
+        // Search Games
+        function searchGames() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const games = document.querySelectorAll('.game');
+            games.forEach(game => {
+                const name = game.getAttribute('data-name').toLowerCase();
+                game.style.display = name.includes(query) ? 'block' : 'none';
+            });
+        }
+    </script>
+</body>
+</html>
