@@ -1,2 +1,2 @@
 # Pixel-ArcadeV5
-Created with CodeSandbox
+Pixel Arcade is your all-in-one entertainment platform packed with endless fun and features! 🎮✨ Play exciting proxy games to challenge your skills, stream your favorite movies for a relaxing night in 🎥🍿, and connect with friends in our lively chatroom 💬👾. Need advice, answers, or just a little fun? Chat directly with ChatGPT 🤖💡. Whatever you're in the mood for, Pixel Arcade has you covered—explore, play, and enjoy today! 🚀🎉
