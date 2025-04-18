@@ -1,5 +1,4 @@
 # Pixel Arcade V5
-<p align="center"><img src="https://raw.githubusercontent.com/defnotchris1/Pixel-ArcadeV5/refs/heads/main/img/pa2.png" height="200"></p>
 
 <h1 align="center">Pixel Arcade</h1>
 <p align="center" style="opacity: 0.65;">Your simple fun games site.</p>
